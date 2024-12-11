@@ -4,6 +4,12 @@ body {
     font-family: Lato, sans-serif;
 }
 
+.main-container {
+    display: block;
+    width: 500px;
+    margin: 0 auto;
+}
+
 /* #region HEADER  */
 .header {
     width: 500px;
@@ -28,11 +34,7 @@ body {
 /* #endregion */
 
 
-.centered-main-page-element {
-    display: block;
-    width: 500px;
-    margin: 0 auto 0;
-}
+
 .task {
     width: 56%;
     display: inline-block;
