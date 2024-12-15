@@ -1,55 +1,42 @@
-//Document is the DOM can be accessed in the console with document.window.
-// Tree is from the top, html, body, p etc.
+//Проблема: взаимодействие с пользователем не обеспечивает правильных результатов.
+//Решение: добавьте интерактивности, чтобы пользователь мог управлять ежедневными задачами.
+//Разбейте все на более мелкие шаги и выполняйте каждый шаг за раз.
 
-//Problem: User interaction does not provide the correct results.
-//Solution: Add interactivity so the user can manage daily tasks.
-//Break things down into smaller steps and take each step at a time.
-
-
-// Event handling, user interaction is what starts the code execution.
 
 const taskInput = document.querySelector('.task__new')
+const addBtn = document.querySelector('.add-btn')
+const incompleteNode = document.querySelector('#incomplete-tasks')
+const completeNode = document.querySelector('#completed-tasks')
 
-var addButton=document.getElementsByTagName("button")[0];//first button
-var incompleteTaskHolder=document.getElementById("incompleteTasks");//ul of #incompleteTasks
-var completedTasksHolder=document.getElementById("completed-tasks");//completed-tasks
+// let idCounter = 0;
+// let tasks = [{id: '905', status: 'incomplete', string: 'test status'}]
 
+// var createNewTaskElement=function(taskString){
+function createNewTask(task) {
+    const listItem = document.createElement("li")
+    const checkBox = document.createElement("input")
+    const label = document.createElement("label")
+    const editInput = document.createElement("input")
+    const editButton = document.createElement("button")
+    const deleteButton = document.createElement("button")
+    const deleteButtonImg = document.createElement("img")
 
-//New task list item
-var createNewTaskElement=function(taskString){
+    label.innerText = taskString
+    label.className = "task__label"
 
-    var listItem=document.createElement("li");
+    checkBox.type = "checkbox"
+    editInput.type = "text"
+    editInput.className = "task__input"
 
-    //input (checkbox)
-    var checkBox=document.createElement("input");//checkbx
-    //label
-    var label=document.createElement("label");//label
-    //input (text)
-    var editInput=document.createElement("input");//text
-    //button.edit
-    var editButton=document.createElement("button");//edit button
+    editButton.innerText = "Edit"
+    editButton.className = "btn"
+    editButton.id = "edit-btn"
 
-    //button.delete
-    var deleteButton=document.createElement("button");//delete button
-    var deleteButtonImg=document.createElement("img");//delete button image
-
-    label.innerText=taskString;
-    label.className='task';
-
-    //Each elements, needs appending
-    checkBox.type="checkbox";
-    editInput.type="text";
-    editInput.className="task";
-
-    editButton.innerText="Edit"; //innerText encodes special characters, HTML does not.
-    editButton.className="edit";
-
-    deleteButton.className="delete";
-    deleteButtonImg.src='./remove.svg';
+    deleteButton.className = "btn"
+    deleteButton.id = "delete-btn"
+    deleteButtonImg.src = "./remove.svg"
     deleteButton.appendChild(deleteButtonImg);
 
-
-    //and appending.
     listItem.appendChild(checkBox);
     listItem.appendChild(label);
     listItem.appendChild(editInput);
@@ -57,8 +44,6 @@ var createNewTaskElement=function(taskString){
     listItem.appendChild(deleteButton);
     return listItem;
 }
-
-
 
 var addTask=function(){
     console.log("Add Task...");
@@ -103,7 +88,6 @@ var editTask=function(){
     listItem.classList.toggle("editMode");
 };
 
-
 //Delete task.
 var deleteTask=function(){
     console.log("Delete Task...");
@@ -114,7 +98,6 @@ var deleteTask=function(){
     ul.removeChild(listItem);
 
 }
-
 
 //Mark task completed
 var taskCompleted=function(){
@@ -127,7 +110,6 @@ var taskCompleted=function(){
 
 }
 
-
 var taskIncomplete=function(){
     console.log("Incomplete Task...");
 //Mark task as incomplete.
@@ -137,8 +119,6 @@ var taskIncomplete=function(){
     incompleteTaskHolder.appendChild(listItem);
     bindTaskEvents(listItem,taskCompleted);
 }
-
-
 
 var ajaxRequest=function(){
     console.log("AJAX Request");
@@ -189,8 +169,8 @@ for (var i=0; i<completedTasksHolder.children.length;i++){
 
 
 
-// Issues with usability don't get seen until they are in front of a human tester.
+// Проблемы с удобством использования не видны, пока они не окажутся перед человеком-тестером.
 
-//prevent creation of empty tasks.
+//предотвращайте создание пустых задач.
 
-//Change edit to save when you are in edit mode.
+//Измените редактирование на сохранение, когда вы находитесь в режиме редактирования.
