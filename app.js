@@ -1,18 +1,9 @@
-//Проблема: взаимодействие с пользователем не обеспечивает правильных результатов.
-//Решение: добавьте интерактивности, чтобы пользователь мог управлять ежедневными задачами.
-//Разбейте все на более мелкие шаги и выполняйте каждый шаг за раз.
-
-
 const taskInput = document.querySelector('.task_new')
 const addBtn = document.querySelector('#add-btn')
 const incompleteNode = document.querySelector('#incomplete-tasks')
 const completeNode = document.querySelector('#completed-tasks')
 
-// let idCounter = 0;
-// let tasks = [{id: '905', status: 'incomplete', string: 'test status'}]
-
-// var createNewTaskElement=function(taskString){
-function createNewTask(taskString) {
+function createNewTask(taskString, isChecked) {
     const listItem = document.createElement("li")
     const checkBox = document.createElement("input")
     const label = document.createElement("label")
@@ -28,6 +19,7 @@ function createNewTask(taskString) {
 
     checkBox.type = "checkbox"
     checkBox.className = "task__check"
+    checkBox.checked = isChecked
 
     editInput.type = "text"
     editInput.className = "task__input"
@@ -44,6 +36,7 @@ function createNewTask(taskString) {
 
     editButton.addEventListener('click', editTask)
     deleteButton.addEventListener('click', deleteTask)
+    checkBox.addEventListener('click', compleleTask)
 
     listItem.appendChild(checkBox)
     listItem.appendChild(label)
@@ -52,22 +45,6 @@ function createNewTask(taskString) {
     listItem.appendChild(deleteButton)
     return listItem;
 }
-
-var addTask=function(){
-    console.log("Add Task...");
-    //Create a new list item with the text from the #new-task:
-    if (!taskInput.value) return;
-    var listItem=createNewTaskElement(taskInput.value);
-
-    //Append listItem to incompleteTaskHolder
-    incompleteTaskHolder.appendChild(listItem);
-    bindTaskEvents(listItem, taskCompleted);
-
-    taskInput.value="";
-
-}
-
-//Edit an existing task.
 
 function editTask() {
     const thisItem = this.parentNode
@@ -95,90 +72,34 @@ function deleteTask() {
     parentItem.removeChild(thisItem)
 }
 
+function compleleTask() {
+    const isChecked = this.checked
+    const thisItem = this.parentNode;
+    const parentItem = thisItem.parentNode;   
 
-//Mark task completed
+    const thisTaskValue = this.parentNode.querySelector('.task__label').textContent 
+    
+    parentItem.removeChild(thisItem)
+    console.log(isChecked);
 
-
-// var taskCompleted=function(){
-//     console.log("Complete Task...");
-
-//     //Append the task list item to the #completed-tasks
-//     var listItem=this.parentNode;
-//     completedTasksHolder.appendChild(listItem);
-//     bindTaskEvents(listItem, taskIncomplete);
-
-// }
-
-var taskIncomplete=function(){
-    console.log("Incomplete Task...");
-//Mark task as incomplete.
-    //When the checkbox is unchecked
-    //Append the task list item to the #incompleteTasks.
-    var listItem=this.parentNode;
-    incompleteTaskHolder.appendChild(listItem);
-    bindTaskEvents(listItem,taskCompleted);
+    if (!isChecked) {
+        incompleteNode.appendChild(createNewTask(thisTaskValue, false))
+    } else {
+        completeNode.appendChild(createNewTask(thisTaskValue, true))
+    }
 }
 
-var ajaxRequest=function(){
-    console.log("AJAX Request");
-}
-
-
-
-// addButton.onclick=addTask;
-// addButton.addEventListener("click",addTask);
-// addButton.addEventListener("click",ajaxRequest);
+//Listeners
  addBtn.addEventListener('click', () => {
     const text = taskInput.value
 
     if (text) {
-        incompleteNode.appendChild(createNewTask(text))
+        incompleteNode.appendChild(createNewTask(text, false))
         taskInput.value = ''
     }
  })
 
-
-
-var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
-    console.log("bind list item events");
-//select ListItems children
-    var checkBox=taskListItem.querySelector("input[type=checkbox]");
-    var editButton=taskListItem.querySelector("button.edit");
-    var deleteButton=taskListItem.querySelector("button.delete");
-
-
-    //Bind editTask to edit button.
-    editButton.onclick=editTask;
-    //Bind deleteTask to delete button.
-    deleteButton.onclick=deleteTask;
-    //Bind taskCompleted to checkBoxEventHandler.
-    checkBox.onchange=checkBoxEventHandler;
-}
-
-//cycle over incompleteTaskHolder ul list items
-//for each list item
-
-// for (var i=0; i<incompleteTaskHolder.children.length;i++){
-
-//     //bind events to list items chldren(tasksCompleted)
-//     bindTaskEvents(incompleteTaskHolder.children[i],taskCompleted);
-// }
-
-
-
-
-//cycle over completedTasksHolder ul list items
-
-// for (var i=0; i<completedTasksHolder.children.length;i++){
-//     //bind events to list items chldren(tasksIncompleted)
-//     bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
-// }
-
-
-
-
-// Проблемы с удобством использования не видны, пока они не окажутся перед человеком-тестером.
-
-//предотвращайте создание пустых задач.
-
-//Измените редактирование на сохранение, когда вы находитесь в режиме редактирования.
+ //add demo
+ //добавить невыполненную не в режиме редакт
+ //добавить невыполненную в режиме редакт
+ //добавить выполненную
