@@ -3,8 +3,8 @@
 //Разбейте все на более мелкие шаги и выполняйте каждый шаг за раз.
 
 
-const taskInput = document.querySelector('.task__new')
-const addBtn = document.querySelector('.add-btn')
+const taskInput = document.querySelector('.task_new')
+const addBtn = document.querySelector('#add-btn')
 const incompleteNode = document.querySelector('#incomplete-tasks')
 const completeNode = document.querySelector('#completed-tasks')
 
@@ -12,7 +12,7 @@ const completeNode = document.querySelector('#completed-tasks')
 // let tasks = [{id: '905', status: 'incomplete', string: 'test status'}]
 
 // var createNewTaskElement=function(taskString){
-function createNewTask(task) {
+function createNewTask(taskString) {
     const listItem = document.createElement("li")
     const checkBox = document.createElement("input")
     const label = document.createElement("label")
@@ -21,10 +21,14 @@ function createNewTask(task) {
     const deleteButton = document.createElement("button")
     const deleteButtonImg = document.createElement("img")
 
+    listItem.className = "task"
+
     label.innerText = taskString
     label.className = "task__label"
 
     checkBox.type = "checkbox"
+    checkBox.className = "task__check"
+
     editInput.type = "text"
     editInput.className = "task__input"
 
@@ -35,13 +39,14 @@ function createNewTask(task) {
     deleteButton.className = "btn"
     deleteButton.id = "delete-btn"
     deleteButtonImg.src = "./remove.svg"
-    deleteButton.appendChild(deleteButtonImg);
+    deleteButtonImg.className = "btn_delete-img"
+    deleteButton.appendChild(deleteButtonImg)
 
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    listItem.appendChild(editInput);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
+    listItem.appendChild(checkBox)
+    listItem.appendChild(label)
+    listItem.appendChild(editInput)
+    listItem.appendChild(editButton)
+    listItem.appendChild(deleteButton)
     return listItem;
 }
 
@@ -124,13 +129,21 @@ var ajaxRequest=function(){
     console.log("AJAX Request");
 }
 
-//The glue to hold it all together.
+console.log('taskInput', taskInput);
 
 
-//Set the click handler to the addTask function.
-addButton.onclick=addTask;
-addButton.addEventListener("click",addTask);
-addButton.addEventListener("click",ajaxRequest);
+// addButton.onclick=addTask;
+// addButton.addEventListener("click",addTask);
+// addButton.addEventListener("click",ajaxRequest);
+ addBtn.addEventListener('click', () => {
+    const text = taskInput.value
+
+    if (text) {
+        incompleteNode.appendChild(createNewTask(text))
+        taskInput.value = ''
+    }
+ })
+
 
 
 var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
@@ -151,20 +164,22 @@ var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 
 //cycle over incompleteTaskHolder ul list items
 //for each list item
-for (var i=0; i<incompleteTaskHolder.children.length;i++){
 
-    //bind events to list items chldren(tasksCompleted)
-    bindTaskEvents(incompleteTaskHolder.children[i],taskCompleted);
-}
+// for (var i=0; i<incompleteTaskHolder.children.length;i++){
+
+//     //bind events to list items chldren(tasksCompleted)
+//     bindTaskEvents(incompleteTaskHolder.children[i],taskCompleted);
+// }
 
 
 
 
 //cycle over completedTasksHolder ul list items
-for (var i=0; i<completedTasksHolder.children.length;i++){
-    //bind events to list items chldren(tasksIncompleted)
-    bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
-}
+
+// for (var i=0; i<completedTasksHolder.children.length;i++){
+//     //bind events to list items chldren(tasksIncompleted)
+//     bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
+// }
 
 
 
