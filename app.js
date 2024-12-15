@@ -99,7 +99,11 @@ function compleleTask() {
     }
  })
 
- //add demo
- //добавить невыполненную не в режиме редакт
- //добавить невыполненную в режиме редакт
- //добавить выполненную
+ //demo
+ incompleteNode.appendChild(createNewTask("Pay Bills", false))
+
+ const testNode = createNewTask("Go Shopping", false)
+ incompleteNode.appendChild(testNode)
+ editTask.call(testNode.querySelector('#edit-btn'))
+
+ completeNode.appendChild(createNewTask("See the Doctor", true))
