@@ -42,6 +42,9 @@ function createNewTask(taskString) {
     deleteButtonImg.className = "btn_delete-img"
     deleteButton.appendChild(deleteButtonImg)
 
+    editButton.addEventListener('click', editTask)
+    deleteButton.addEventListener('click', deleteTask)
+
     listItem.appendChild(checkBox)
     listItem.appendChild(label)
     listItem.appendChild(editInput)
@@ -66,54 +69,45 @@ var addTask=function(){
 
 //Edit an existing task.
 
-var editTask=function(){
-    console.log("Edit Task...");
-    console.log("Change 'edit' to 'save'");
+function editTask() {
+    const thisItem = this.parentNode
+    const thisInput = this.parentNode.querySelector('.task__input')
+    const thisLabel = this.parentNode.querySelector('.task__label')
+    const thisCheck = this.parentNode.querySelector('.task__check')
+    
+    
+    thisItem.classList.toggle('edit-mode')
 
-
-    var listItem=this.parentNode;
-
-    var editInput=listItem.querySelector('input[type=text]');
-    var label=listItem.querySelector("label");
-    var editBtn=listItem.querySelector(".edit");
-    var containsClass=listItem.classList.contains("editMode");
-    //If class of the parent is .editmode
-    if(containsClass){
-
-        //switch to .editmode
-        //label becomes the inputs value.
-        label.innerText=editInput.value;
-        editBtn.innerText="Edit";
-    }else{
-        editInput.value=label.innerText;
-        editBtn.innerText="Save";
+    if (thisItem.classList.contains('edit-mode')) {
+        thisCheck.setAttribute('disabled', 'disabled')
+        this.innerText = "Save"
+        thisInput.value = thisLabel.textContent        
+    } else {
+        thisCheck.removeAttribute('disabled')
+        this.innerText = "Edit"
+        thisLabel.textContent = thisInput.value
     }
-
-    //toggle .editmode on the parent.
-    listItem.classList.toggle("editMode");
-};
-
-//Delete task.
-var deleteTask=function(){
-    console.log("Delete Task...");
-
-    var listItem=this.parentNode;
-    var ul=listItem.parentNode;
-    //Remove the parent list item from the ul.
-    ul.removeChild(listItem);
-
 }
+
+function deleteTask() {
+    const thisItem = this.parentNode;
+    const parentItem = thisItem.parentNode;   
+    parentItem.removeChild(thisItem)
+}
+
 
 //Mark task completed
-var taskCompleted=function(){
-    console.log("Complete Task...");
 
-    //Append the task list item to the #completed-tasks
-    var listItem=this.parentNode;
-    completedTasksHolder.appendChild(listItem);
-    bindTaskEvents(listItem, taskIncomplete);
 
-}
+// var taskCompleted=function(){
+//     console.log("Complete Task...");
+
+//     //Append the task list item to the #completed-tasks
+//     var listItem=this.parentNode;
+//     completedTasksHolder.appendChild(listItem);
+//     bindTaskEvents(listItem, taskIncomplete);
+
+// }
 
 var taskIncomplete=function(){
     console.log("Incomplete Task...");
@@ -129,7 +123,6 @@ var ajaxRequest=function(){
     console.log("AJAX Request");
 }
 
-console.log('taskInput', taskInput);
 
 
 // addButton.onclick=addTask;
